@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+  }
+  
+  #world {
+    width: 100%;
+    height: 100vh;
+    background: black;
+  }
+
+  body {
+    background-color: rgb(206, 0, 0);
+}

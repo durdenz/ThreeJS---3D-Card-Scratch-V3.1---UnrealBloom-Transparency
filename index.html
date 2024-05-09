@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Card
+    </title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <script type="x-shader/x-vertex" id="vertexshader">
+
+        varying vec2 vUv;
+
+        void main() {
+
+            vUv = uv;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+        }
+
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentshader">
+
+        uniform sampler2D baseTexture;
+        uniform sampler2D bloomTexture;
+
+        varying vec2 vUv;
+
+        void main() {
+
+            vec4 base_color = texture2D(baseTexture, vUv);
+            vec4 bloom_color = texture2D(bloomTexture, vUv);
+
+            float lum = 0.21 * bloom_color.r + 0.71 * bloom_color.g + 0.07 * bloom_color.b;
+            gl_FragColor = vec4(base_color.rgb + bloom_color.rgb, max(base_color.a, lum));
+
+        }
+
+    </script>
+
+    <div id="container"></div>
+
+    <video id="videoFront-base" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="GoldSparkle_Base_Front_1.mp4">
+	</video>
+
+    <video id="videoBack-base" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="GoldSparkle_Base_Back.mp4">
+	</video>
+
+  <!--   <video id="videoFront-roughness" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="holofoil-overlay.mp4">
+	</video>
+
+    <video id="videoBack-roughness" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="holofoil-overlay.mp4">
+	</video>
+
+    <video id="videoFront-metallic" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="holofoil-overlay.mp4">
+	</video>
+
+    <video id="videoBack-metallic" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="holofoil-overlay.mp4">
+	</video>  -->
+
+    <video id="videoFront-emissive" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="GoldRadianceGlow_Matte.mp4">
+	</video>
+
+    <video id="videoBack-emissive" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="GoldRadiance_Matte_Metal.mp4">
+	</video>
+
+   <!--  <video id="videoSide-base" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="PurpleCosmicSide.mp4">
+	</video>
+
+    <video id="videoSideTB-base" loop muted crossOrigin="anonymous" playsinline style="display:none">
+		<source src="PurpleCosmicSideTB.mp4">
+	</video> -->
+
+    <!-- Import maps polyfill -->
+	<!-- Remove this when import maps will be widely supported -->
+	<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+    <script type="importmap">
+        {
+            "imports" : {
+                "three" : "https://unpkg.com/three@0.159.0/build/three.module.js",
+                "three/examples/" : "https://unpkg.com/three@0.159.0/examples/",
+                "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="script.js" ></script>
+</body>
+</html>
